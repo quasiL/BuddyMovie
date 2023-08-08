@@ -5,9 +5,9 @@ pipeline {
             }
       }
     environment {
-        SPRING_DATASOURCE_URL = credentials('postgres-url-secret')
-        SPRING_DATASOURCE_USERNAME = credentials('postgres-username-secret')
-        SPRING_DATASOURCE_PASSWORD = credentials('postgres-password-secret')
+        POSTGRES_URL = credentials('postgres-url-secret')
+        POSTGRES_USERNAME = credentials('postgres-username-secret')
+        POSTGRES_PASSWORD = credentials('postgres-password-secret')
     }
     stages {
         stage('Setup Environment') {
@@ -21,9 +21,9 @@ pipeline {
                             envVariables[parts[0]] = parts[1]
                         }
                     }
-                    SPRING_DATASOURCE_URL = envVariables['POSTGRES_URL']
-                    SPRING_DATASOURCE_USERNAME = envVariables['POSTGRES_USERNAME']
-                    SPRING_DATASOURCE_PASSWORD = envVariables['POSTGRES_PASSWORD']
+                    POSTGRES_URL = envVariables['POSTGRES_URL']
+                    POSTGRES_USERNAME = envVariables['POSTGRES_USERNAME']
+                    POSTGRES_PASSWORD = envVariables['POSTGRES_PASSWORD']
                 }
             }
         }
