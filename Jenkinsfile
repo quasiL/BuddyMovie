@@ -9,10 +9,9 @@ pipeline {
             steps {
                 echo "Building.."
                 withCredentials([usernamePassword(credentialsId: 'postgres', passwordVariable: 'POSTGRES_PASSWORD', usernameVariable: 'POSTGRES_USERNAME')]) {
-                    POSTGRES_URL = 'jdbc:postgresql://ep-rapid-boat-97751576.eu-central-1.aws.neon.tech/neondb'
                     withEnv([
                         "SPRING_PROFILES_ACTIVE=production",
-                        "SPRING_DATASOURCE_URL=${POSTGRES_URL}",
+                        "SPRING_DATASOURCE_URL=jdbc:postgresql://ep-rapid-boat-97751576.eu-central-1.aws.neon.tech/neondb",
                         "SPRING_DATASOURCE_USERNAME=${POSTGRES_USERNAME}",
                         "SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}"
                     ]) {
