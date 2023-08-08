@@ -71,7 +71,7 @@ services:
 
   jenkins_agent:
     container_name: jenkins_agent
-    image: jenkins/ssh-agent:jdk11
+    image: jenkins/ssh-agent:jdk17
     privileged: true
     user: root
     expose:
