@@ -4,32 +4,12 @@ pipeline {
             label 'jenkins_agent'
             }
       }
-    environment {
-        POSTGRES_URL = credentials('postgres-url-secret')
-        POSTGRES_USERNAME = credentials('postgres-username-secret')
-        POSTGRES_PASSWORD = credentials('postgres-password-secret')
-    }
     stages {
-        stage('Setup Environment') {
-            steps {
-                script {
-                    def envFileContent = readFile('.env')
-                    def envVariables = [:]
-                    envFileContent.eachLine { line ->
-                        def parts = line.split('=')
-                        if (parts.size() == 2) {
-                            envVariables[parts[0]] = parts[1]
-                        }
-                    }
-                    POSTGRES_URL = envVariables['POSTGRES_URL']
-                    POSTGRES_USERNAME = envVariables['POSTGRES_USERNAME']
-                    POSTGRES_PASSWORD = envVariables['POSTGRES_PASSWORD']
-                }
-            }
-        }
         stage('Build') {
             steps {
                 echo "Building.."
+                withCredentials([usernamePassword(credentialsId: 'postgres', passwordVariable: 'POSTGRES_PASSWORD', usernameVariable: 'POSTGRES_USERNAME')]) {
+                    POSTGRES_URL = 'jdbc:postgresql://ep-rapid-boat-97751576.eu-central-1.aws.neon.tech/neondb'
                 withEnv([
                     "SPRING_PROFILES_ACTIVE=production",
                     "SPRING_DATASOURCE_URL=${POSTGRES_URL}",
