@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buddymovie-app-deployment
+  labels:
+    app: buddymovie-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: buddymovie-app
+  template:
+    metadata:
+      labels:
+        app: buddymovie-app
+    spec:
+      containers:
+        - name: buddymovie-app
+          image: potacocat/buddymovie-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-dialect
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-url
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: buddymovie-app-service
+spec:
+  type: NodePort
+  selector:
+    app: buddymovie-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30100

@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hiberante:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  config:
+    import: optional:secrets.yaml
