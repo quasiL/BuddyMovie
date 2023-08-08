@@ -8,11 +8,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building.."
-                withEnv(["SPRING_PROFILES_ACTIVE=production"]) {
-                    sh '''
-                    ./mvnw clean package
-                    '''
-                }
+                sh '''
+                ./mvnw clean package
+                '''
             }
         }
         stage('Test') {
