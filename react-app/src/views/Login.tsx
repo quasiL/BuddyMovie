@@ -44,7 +44,7 @@ const Login = ({}: Props) => {
       password: passwordRef.current?.value
     };
 
-    axiosClient.post("http://localhost:8080/api/v1/auth/login", payload)
+    axiosClient.post("http://localhost:8081/api/v1/auth/login", payload)
       .then(({data}) => {
         const response = data as LoginResponse;
         setToken(response.accessToken);

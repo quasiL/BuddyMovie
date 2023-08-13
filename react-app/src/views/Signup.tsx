@@ -60,7 +60,7 @@ const Signup = () => {
       sex: selectedOption
     };
 
-    axiosClient.post("http://localhost:8080/api/v1/auth/register", payload)
+    axiosClient.post("http://localhost:8081/api/v1/auth/register", payload)
       .then(() => {
         navigate("/login");
       })
